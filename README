@@ -6,6 +6,31 @@ where you could make something slightly more complicated than a simple TODO app.
 Given some more time, I'd like to add the following:
 
 * a way to move commas within a sentence, and to drag them out of the sentence
+* show a validated message when the sentence is correct
 * support for touch devices
 * some sort of real backend instead of using static content
-* better css
+* better css, especially for items that can be dragged
+
+In general, my approach was to:
+
+* take the example sentences
+* split them on whitespace
+* add each word as a drop target
+
+and to provide a draggable area for adding commas
+
+From a UX/UI perspective, it would take a fair amount of style to make this obvious
+to users, but this approach allows for situations where sentences have both too
+many and too few commas and the user has to add / remove them.
+
+Ember is a fairly good choice for this because its bindings provide an easy way to
+update words and keep the entire sentence in sync with the changes users make.
+
+The markup is all text, without any images or other markup, which keeps the
+entire document accessible to, say, screen readers, or other use cases where
+accessibility matters.
+
+Another approach might have been to create the entire sentence as a collection of
+drag and droppable words + punctuation, and users would need to put it in the
+"correct order". That would be slightly more challenging, but would be easier to
+translate to touch events for tablets and phones.
