@@ -1,36 +1,49 @@
 // create an application to contain our namespaced objects
 var App = App || Ember.Application.create({});
 
+App.Word = Ember.Object.extend({
+  word: null
+});
+
+App.WordView = Ember.View.extend({
+  tagName: 'span',
+  defaultTemplate: Ember.Handlebars.compile('{{word}} '),
+
+  handle_drop_event: function(e) {
+    console.log("handled a drop event on word : " + this.word);
+  }
+}, DragNDrop.Droppable);
+
 App.Sentence = Ember.Object.extend({
   title: null,
   sentence: null,
   correct_sentence: null,
   words: [],
   init: function() {
-    this.words = this.sentence.split(' ');
+    this.words = this.sentence.split(/\s+/).map(function(word) {
+      return App.Word.create({word: word});
+    });
   }
 });
 
-App.Word = Ember.Object.extend({
-  word: null,
-  has_comma: false
-});
-
-App.WordView = Ember.View.extend({
-  defaultTemplate: Ember.Handlebars.compile('{{word}}')
-}, DragNDrop.Droppable);
-
 App.SentenceView = Ember.View.extend({
-  defaultTemplate: Ember.Handlebars.compile('<div class=container>{{title}}</div><div>{{sentence}}</div>'),
+  defaultTemplate: Ember.Handlebars.compile('<div class=container>'
+                                            + '{{title}}</div>'
+                                            + '<div>'
+                                            + '{{#each words}}'
+                                            + '{{view App.WordView word=word}}'
+                                            + '{{/each}}'
+                                            + '</div>'),
+
+  words: function() {
+    return this.get('sentence').words;
+  }.property('sentence'),
 
   is_correct: function() {
     return this.get('sentence') === this.get('correct_sentence');
-  }.property('sentence', 'correct_sentence'),
+  }.property('sentence', 'correct_sentence')
 
-  handle_drop_event: function(e) {
-    console.log("handled a drop event on sentences :" + this.sentence);
-  }
-}, DragNDrop.Droppable);
+});
 
 App.sentenceController = Ember.ArrayProxy.create({
   content: []
