@@ -1,0 +1,11 @@
+This is an example of using Ember.js with drag and drop events.
+
+I wanted to illustrate using bindings, HTML5 drag and drop, and Rails in a way
+where you could make something slightly more complicated than a simple TODO app.
+
+Given some more time, I'd like to add the following:
+
+* a way to move commas within a sentence, and to drag them out of the sentence
+* support for touch devices
+* some sort of real backend instead of using static content
+* better css
