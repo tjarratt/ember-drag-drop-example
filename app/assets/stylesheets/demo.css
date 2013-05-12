@@ -1,0 +1,17 @@
+#extra_commas {
+  width: 50px;
+  height: 5px;
+}
+
+.fl {
+  float: left;
+}
+
+.fr {
+  float: right;
+}
+
+.container {
+  margin-top: 15px;
+  margin-bottom: 15px;
+}

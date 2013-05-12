@@ -1,9 +1,18 @@
-<div class=container>
-  <label>Example 1</label>
-  <p>The caltrain, broke down so I was late for work.</p>
-</div>
+<%= javascript_include_tag 'jquery-1.9.1.js' %>
+<%= javascript_include_tag 'handlebars-1.0.0-rc.3.js' %>
+<%= javascript_include_tag 'ember-1.0.0-rc.3.js' %>
+<%= javascript_include_tag 'demo.js' %>
+<%= stylesheet_link_tag 'demo.css' %>
 
-<div>
-  <label>Example 2</label>
-  <p>I love to eat, bread, cheese, and eggs every morning.</p>
-</div>
+<script type="text/x-handlebars">
+  <div class=fl>
+    {{#collection contentBinding="App.sentenceController"}}
+    {{view App.SentenceView sentence=content}}
+    {{/collection}}
+  </div>
+
+  <div class=fr>
+    <label for=extra_commas>Extra commas</label>
+    <div id=extra_commas>,</div>
+  </div>
+</script>
