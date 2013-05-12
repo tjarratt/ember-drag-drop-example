@@ -10,3 +10,8 @@
 // WARNING: THE FIRST BLANK LINE MARKS THE END OF WHAT'S TO BE PROCESSED, ANY BLANK LINE SHOULD
 // GO AFTER THE REQUIRES BELOW.
 //
+//= require jquery-1.9.1
+//= require handlebars-1.0.0-rc.3
+//= require ember-1.0.0-rc.3
+//= require drag_drop
+//= require demo
