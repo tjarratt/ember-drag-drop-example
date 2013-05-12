@@ -6,11 +6,13 @@ App.Word = Ember.Object.extend({
 });
 
 App.WordView = Ember.View.extend({
+  word: null,
+  the_word: null,
   tagName: 'span',
-  defaultTemplate: Ember.Handlebars.compile('{{word}} '),
+  defaultTemplate: Ember.Handlebars.compile('{{word.word}} '),
 
   handle_drop_event: function(e) {
-    console.log("handled a drop event on word : " + this.word);
+    this.word.set('word', this.word.word + ',');
   }
 }, DragNDrop.Droppable);
 
@@ -30,8 +32,8 @@ App.SentenceView = Ember.View.extend({
   defaultTemplate: Ember.Handlebars.compile('<div class=container>'
                                             + '{{title}}</div>'
                                             + '<div>'
-                                            + '{{#each words}}'
-                                            + '{{view App.WordView word=word}}'
+                                            + '{{#each word in words}}'
+                                            + '{{view App.WordView wordBinding=word}}'
                                             + '{{/each}}'
                                             + '</div>'),
 
