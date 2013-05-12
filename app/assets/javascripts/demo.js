@@ -29,11 +29,20 @@ DragNDrop.Droppable = Ember.Mixin.create({
 App.DropTarget = Ember.View.extend(DragNDrop.Droppable);
 
 // support for sentences
-App.Sentence = Em.Object.extend({
+App.Sentence = Ember.Object.extend({
   title: null,
   sentence: null,
-  correct_sentence: null
+  correct_sentence: null,
+  words: [],
+  init: function() {
+    this.words = this.sentence.split(' ');
+  }
 });
+
+App.word = Ember.Object.extend({
+  word: null,
+  has_comma: false
+}, DragNDrop.Droppable);
 
 App.SentenceView = Ember.View.extend({
   defaultTemplate: Ember.Handlebars.compile('<div class=container>{{title}}</div><div>{{sentence}}</div>'),
@@ -43,7 +52,7 @@ App.SentenceView = Ember.View.extend({
   }.property('sentence', 'correct_sentence'),
 
   handle_drop_event: function(e) {
-    console.log("zomg");
+    console.log("handled a drop event on sentences :" + this.sentence);
   }
 }, DragNDrop.Droppable);
 
