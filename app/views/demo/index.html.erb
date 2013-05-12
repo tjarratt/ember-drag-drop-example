@@ -5,14 +5,14 @@
 <%= stylesheet_link_tag 'demo.css' %>
 
 <script type="text/x-handlebars">
-  <div class=fl>
+  <div >
     {{#collection contentBinding="App.sentenceController"}}
     {{view App.SentenceView sentence=content}}
     {{/collection}}
   </div>
 
-  <div class=fr>
+  <div id=commas_container>
     <label for=extra_commas>Extra commas</label>
-    <div id=extra_commas>,</div>
+    {{view App.ExtraCommasView class="box"}}
   </div>
 </script>

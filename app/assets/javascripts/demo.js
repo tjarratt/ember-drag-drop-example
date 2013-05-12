@@ -1,33 +1,29 @@
 // create an application to contain our namespaced objects
 var App = Ember.Application.create({});
 
-// support for drag and drop objects
+// support for drag and drop events
 // I know this works in Chrome, but I haven't tested in IE, FF, Safari, etc
 var DragNDrop = Ember.Namespace.create();
 
 DragNDrop.cancel = function(event) {
-    event.preventDefault();
-    return false;
+  event.preventDefault();
+  return false;
 };
 
 DragNDrop.Dragable = Ember.Mixin.create({
-    attributeBindings: 'draggable',
-    draggable: 'true',
-    dragStart: function(event) {
-        var dataTransfer = event.originalEvent.dataTransfer;
-        dataTransfer.setData('Text', this.get('elementId'));
-    }
+  attributeBindings: 'draggable',
+  draggable: 'true'
 });
 
 DragNDrop.Droppable = Ember.Mixin.create({
-    dragEnter: DragNDrop.cancel,
-    dragOver: DragNDrop.cancel,
-    drop: function(event) {
-        var viewId = event.originalEvent.dataTransfer.getData('Text');
-        Ember.View.views[viewId].destroy();
-        event.preventDefault();
-        return false;
-    }
+  dragEnter: DragNDrop.cancel,
+  dragOver: DragNDrop.cancel,
+  drop: function(event) {
+    var viewId = event.originalEvent.dataTransfer.getData('Text');
+    event.preventDefault();
+    this.handle_drop_event();
+    return false;
+  }
 });
 
 App.DropTarget = Ember.View.extend(DragNDrop.Droppable);
@@ -44,8 +40,12 @@ App.SentenceView = Ember.View.extend({
 
   is_correct: function() {
     return this.get('sentence') === this.get('correct_sentence');
-  }.property('sentence', 'correct_sentence')
-});
+  }.property('sentence', 'correct_sentence'),
+
+  handle_drop_event: function(e) {
+    console.log("zomg");
+  }
+}, DragNDrop.Droppable);
 
 App.sentenceController = Ember.ArrayProxy.create({
   content: []
@@ -66,3 +66,9 @@ var example2 = App.Sentence.create({
 });
 
 App.sentenceController.set('content', [example1, example2]);
+
+// Extra Commas View -- provides a place to drag new commas and drop extra commas
+var template =
+App.ExtraCommasView = Ember.View.extend({
+  defaultTemplate: Ember.Handlebars.compile('<div class="box container"><p>,</p></div>')
+}, DragNDrop.Dragable);
